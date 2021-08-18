@@ -47,7 +47,13 @@
 												<p><?php echo $value->nama_kegiatan ?></p>
 												<a href="<?php echo base_url('pengelola/detailKegiatan/'.$value->id_kegiatan) ?>" type="button" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i>  Detail</a>
 												<a href="<?php echo base_url('pengelola/hapusKegiatan/'.$value->id_kegiatan) ?>" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</a>
-												<span class="float-right text-muted">127 likes - 3 comments</span>
+												<?php if($value->status_posting == 2){?>
+												<span class="float-right badge badge-danger ml-2">ditolak</span>
+											<?php }else if($value->status_posting == 0){?>
+												<span class="float-right badge badge-warning ml-2">menunggu</span>
+											<?php }else{?>
+													<span class="float-right badge badge-success ml-2">diizinkan</span>
+											<?php } ?>
 											</div>
 										</div>
 										<!-- /.card -->

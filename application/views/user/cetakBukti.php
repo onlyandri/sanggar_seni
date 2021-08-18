@@ -39,13 +39,14 @@
         <h5>NAMA SANGGAR</h5>
         <h5>NAMA KETUA </h5>
         <h5>EMAIL </h5>
+        <h5>No HP </h5>
         <h5>KATEGORI</h5>
         <h5>KELURAHAN</h5>
-        <h5>RT/RW</h5>
+        <h5>ALAMAT LENGKAP</h5>
         <h5>KECAMATAN</h5>
         <h5>STATUS</h5>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-7">
         <?php if($bukti['status'] == 1){
           $status = 'Belum Terkonfirmasi';
         }else if($bukti['status'] == 2){
@@ -59,10 +60,11 @@
         <h5> : &nbsp <?php echo $bukti['nik'] ?> </h5>
         <h5 style="text-transform: capitalize;"> : &nbsp <?php echo $bukti['nama_sanggar'] ?> </h5>
         <h5 style="text-transform: capitalize;"> : &nbsp <?php echo $bukti['nama_ketua'] ?> </h5>
-         <h5 style="text-transform: capitalize;"> : &nbsp <?php echo $bukti['email_ketua'] ?> </h5>
+        <h5 style="text-transform: capitalize;"> : &nbsp <?php echo $bukti['email_ketua'] ?> </h5>
+         <h5 style="text-transform: capitalize;"> : &nbsp <?php echo $bukti['no_hp'] ?> </h5>
         <h5 style="text-transform: capitalize;"> : &nbsp <?php echo $bukti['nama_kategori'] ?> </h5>
         <h5 style="text-transform: capitalize;"> : &nbsp <?php echo $bukti['nama_kelurahan'] ?> </h5>
-        <h5 style="text-transform: capitalize;"> : &nbsp <?php echo $bukti['rw'] ?>/<?php echo $bukti['rw'] ?></h5>
+        <h5 style="text-transform: capitalize;"> : &nbsp <?php echo $bukti['alamat'] ?></h5>
         <h5 style="text-transform: capitalize;"> : &nbsp <?php echo $bukti['nama_kecamatan'] ?> </h5>
         <h5> : &nbsp <?php echo $status ?> </h5>
       </div>

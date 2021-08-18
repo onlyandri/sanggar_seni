@@ -99,7 +99,6 @@
    var jenis = $(this).val()
 
    tabel(jenis);
-
    
  })
 
@@ -112,7 +111,6 @@
     dataType : 'json',
     data : { jenis : jenis},
     success:function(data){
-
       $('#tbl').html(data);
     }
   })

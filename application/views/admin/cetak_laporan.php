@@ -43,8 +43,8 @@
             <th>Nama Ketua</th>
             <th>Email Ketua</th>
             <th>Kelurahan</th>
-            <th>RT</th>
-            <th>RW</th>
+            <th>ALmat Lengkap</th>
+            <th>No Hp</th>
             <th>Kecamatan</th>
           </tr>
         </thead>
@@ -64,8 +64,8 @@
             <td><?= $dt->nama_ketua ?></td>
             <td><?= $dt->email_ketua ?></td>
             <td><?= $dt->nama_kelurahan ?></td>
-            <td><?= $dt->rt ?></td>
-            <td><?= $dt->rw ?></td>
+            <td><?= $dt->alamat ?></td>
+            <td><?= $dt->no_hp ?></td>
             <td><?= $dt->nama_kecamatan ?></td>
           </tr>;
 

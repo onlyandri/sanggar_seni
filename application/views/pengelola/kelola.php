@@ -37,7 +37,7 @@
 
 										<strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat</strong>
 
-										<p class="text-muted"><?php echo $sanggar['nama_kelurahan'] ?>, rt <?php echo $sanggar['rt'] ?>/ rw <?php echo $sanggar['rw'] ?>, <?= $sanggar['nama_kecamatan'] ?>, Kota Pekalongan , Jawa Tengah</p>
+										<p class="text-muted"><?php echo $sanggar['alamat'] ?>,<?php echo $sanggar['nama_kelurahan'] ?>,<?= $sanggar['nama_kecamatan'] ?>, Kota Pekalongan , Jawa Tengah</p>
 
 										<hr>
 
@@ -57,6 +57,10 @@
 										<strong><i class="far fa-file-alt mr-1"></i> Email</strong>
 
 										<p class="text-muted"><?php echo $sanggar['email_ketua'] ?></p>
+										<hr>
+										<strong><i class="far fa-file-alt mr-1"></i> No Handphone</strong>
+
+										<p class="text-muted"><?php echo $sanggar['no_hp'] ?></p>
 										<hr>
 									</div>
 									<!-- /.card-body -->
@@ -79,6 +83,12 @@
 										</div>
 									</div>
 									<div class="form-group row">
+										<label for="inputEmail" class="col-sm-2 col-form-label">No Handphone</label>
+										<div class="col-sm-10">
+											<input type="number" name="noHp" class="form-control" id="noHp" placeholder="No Handphone" value="<?php echo $sanggar['no_hp'] ?>">
+										</div>
+									</div>
+									<div class="form-group row">
 										<label for="inputName2" class="col-sm-2 col-form-label">Kategori</label>
 										<div class="col-sm-10">
 										<select class="form-control" id="inputName2" name="kategori">
@@ -94,6 +104,12 @@
 										<label for="inputSkills" class="col-sm-2 col-form-label">Nama Ketua</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="inputSkills" name="nama_ketua" placeholder="nama ketua" value="<?php echo $sanggar['nama_ketua'] ?>">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="inputSkills" class="col-sm-2 col-form-label">Alamat Lengkap</label>
+										<div class="col-sm-10">
+											<textarea type="text" class="form-control" id="inputSkills" name="alamat" placeholder="nama ketua""><?php echo $sanggar['alamat'] ?></textarea>
 										</div>
 									</div>
 									<div class="form-group row">

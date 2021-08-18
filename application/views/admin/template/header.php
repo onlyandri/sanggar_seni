@@ -95,22 +95,22 @@
                 </p>
               </a>
             </li>
-             <li class="nav-item">
-            <a href="<?php echo base_url('pengelola/ubahPassword') ?>" class="nav-link <?php echo $side == 'password' ? 'active' : '' ?>">
-              <i class="nav-icon fas fa-cog"></i>
-              <p>
-                Ubah Password
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="<?php echo base_url('auth/logout') ?>" class="nav-link <?php echo $side == '' ? 'active' : '' ?>">
-              <i class="nav-icon fas fa-sign-out-alt"></i>
-              <p>
-                Logout
-              </p>
-            </a>
-          </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url('pengelola/ubahPassword') ?>" class="nav-link <?php echo $side == 'password' ? 'active' : '' ?>">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                  Ubah Password
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url('auth/logout') ?>" class="nav-link <?php echo $side == '' ? 'active' : '' ?>">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>
+                  Logout
+                </p>
+              </a>
+            </li>
           <?php }else{ ?>
            <li class="nav-item">
             <a href="<?php echo base_url('dashboard') ?>" class="nav-link <?php echo $side == 'home' ? 'active' : '' ?>">
@@ -133,6 +133,11 @@
               <i class="nav-icon fas fa-table"></i>
               <p>
                 Kelola Sanggar
+                <?php $query = $this->db->query("SELECT id_kegiatan from kegiatan where status_posting = 0");
+
+                if($query->num_rows() > 0) {?>
+                  <span class="right badge badge-warning ml-2">new</span>
+                <?php } ?>
               </p>
             </a>
           </li>

@@ -23,6 +23,8 @@
             $id_sanggar = $value->id_sanggar;
           # code...
             $queryPostingan = $this->db->query("SELECT COUNT(id_kegiatan) as jumlahKegiatan from kegiatan where id_sanggar = $id_sanggar")->row_array();
+
+            $queryPost = $this->db->query("SELECT COUNT(id_kegiatan) as jumlahPosting from kegiatan where id_sanggar = $id_sanggar and status_Posting = 0")->row_array();
            ?>
            <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
             <div class="card bg-light">
@@ -33,10 +35,15 @@
               <div class="row">
                 <div class="col-7">
                   <h2 class="lead"><b> <?= $value->nama_sanggar ?></b></h2>
-                  <p class="text-muted text-sm"><b>Jumlah Postingan: </b> <p><?php echo $queryPostingan['jumlahKegiatan'] ?></p></p>
+                  <p class="text-muted text-sm"><b>Jumlah Postingan : </b> <p><?php echo $queryPostingan['jumlahKegiatan'] ?></p></p>
                   <ul class="ml-4 mb-0 fa-ul text-muted">
                     <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Alamat:  <?= $value->nama_kelurahan ?>,  <?= $value->nama_kecamatan ?></li>
                     <li class="small"><span class="fa-li"><i class="fas fa-lg fa-email"></i></span> Email : <?php echo $value->email_ketua ?></li>
+                    <li>
+                      <?php if($queryPost['jumlahPosting'] != 0){?>
+                      <span class="right badge badge-warning"><?php echo $queryPost['jumlahPosting'] ?> postingan menunggu konfirmasi</span>
+                    <?php } ?>
+                    </li>
                   </ul>
                 </div>
                 <div class="col-5 text-center">

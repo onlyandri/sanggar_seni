@@ -41,9 +41,11 @@ class Pengelola extends CI_Controller {
 		$nama_sanggar = $this->input->post('nama_sanggar');
 		$id_kategori = $this->input->post('kategori');
 		$nama_ketua = $this->input->post('nama_ketua');
+		$alamat = $this->input->post('alamat');
+		$no_hp = $this->input->post('noHp');
 		$pesan = $this->input->post('pesan');
 
-		$query = $this->db->query("UPDATE sanggar set nama_sanggar = '$nama_sanggar',id_kategori = '$id_kategori',nama_ketua = '$nama_ketua',pesan = '$pesan' where id_sanggar = '$id_sanggar'");
+		$query = $this->db->query("UPDATE sanggar set nama_sanggar = '$nama_sanggar',id_kategori = '$id_kategori',nama_ketua = '$nama_ketua',pesan = '$pesan',alamat='$alamat',no_hp='$no_hp' where id_sanggar = '$id_sanggar'");
 
 		if($query){
 			$this->session->set_flashdata('message', '<div class="alert alert-success text-center" role="alert">Data berhasil diubah</div>');
@@ -148,7 +150,17 @@ class Pengelola extends CI_Controller {
 			$this->load->view('admin/template/footer');
 		}else{
 
+			$nama_kegiatan = $this->input->post('nama_kegiatan');
+			$deskripsi = $this->input->post('deskripsi');
+			$status = 0;
+
 			if(!empty($_FILES['foto']['name'])){
+				$datagbr= $this->db->get_where('kegiatan',['id_kegiatan' => $id_kegiatan]) -> row_array();
+
+				$file_gbr= $datagbr['foto_kegiatan'];
+
+				unlink(FCPATH . 'upload/kegiatan/'.$file_gbr);
+
 				$config['upload_path'] = 'upload/kegiatan'; 
             //restrict uploads to this mime types
 				$config['allowed_types'] = 'jpg|jpeg|png';
@@ -161,22 +173,21 @@ class Pengelola extends CI_Controller {
 				$this->upload->do_upload('foto');
 				$uploadFoto = $this->upload->data();
 				$fileFoto = $uploadFoto['file_name'];
-
-				$nama_kegiatan = $this->input->post('nama_kegiatan');
-				$deskripsi = $this->input->post('deskripsi');
 				$foto = $fileFoto;
 
-				$query = $this->db->query("UPDATE kegiatan set nama_kegiatan = '$nama_kegiatan', deskripsi_kegiatan = '$deskripsi',foto_kegiatan = '$foto' where id_kegiatan = '$id_kegiatan' ");
+				$query = $this->db->query("UPDATE kegiatan set nama_kegiatan = '$nama_kegiatan', deskripsi_kegiatan = '$deskripsi',foto_kegiatan = '$foto',status_posting = 0 where id_kegiatan = '$id_kegiatan' ");
 				if($query){
 					$this->session->set_flashdata('message', '<div class="alert alert-success text-center" role="alert">Data berhasil diunggah</div>');
 					header('location:'.base_url().'pengelola/kegiatan');
 				}else{
-					$this->session->set_flashdata('message', '<div class="alert alert-danger text-center" role="alert">Data gagal diunggah</div>');
+					$this->session->set_flashdata('message', '<div class="alert alert-success text-center" role="alert">Data gagal diunggah</div>');
 					header('location:'.base_url().'pengelola/kegiatan');
 				}
 
 			}else{
-				$this->session->set_flashdata('message', '<div class="alert alert-danger text-center" role="alert">Data gagal diunggah s</div>');
+				$query = $this->db->query("UPDATE kegiatan set nama_kegiatan = '$nama_kegiatan', deskripsi_kegiatan = '$deskripsi',status_posting = 0 where id_kegiatan = '$id_kegiatan' ");
+
+				$this->session->set_flashdata('message', '<div class="alert alert-success text-center" role="alert">berhasil</div>');
 				header('location:'.base_url().'pengelola/kegiatan');
 			}
 

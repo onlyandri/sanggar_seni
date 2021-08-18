@@ -14,7 +14,7 @@ class Dashboard extends CI_Controller {
 		}
 	}
 
- 
+
 	public function index(){
 		$data['sanggar'] = $this->db->query("SELECT COUNT(id_sanggar) as jumlah_sanggar from sanggar where id_sanggar = 2")->row_array();
 		$data['pengajuan'] = $this->db->query("SELECT COUNT(id_sanggar) as jumlah_pengajuan from sanggar where id_sanggar != 2")->row_array();
@@ -53,6 +53,7 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function detailSanggar($id_sanggar){
+		$data['kegiatan'] = $this->db->query("SELECT * FROM kegiatan where id_sanggar = '$id_sanggar' and status_posting = 0 or status_posting = 2 order by id_kegiatan desc")->result();
 		$data['side'] = 'sanggar';
 		$data['sanggar'] = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on k.id_kecamatan = kc.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori where s.id_sanggar = '$id_sanggar'")->row_array();
 		$data['jumlahPosting'] = $this->db->query("SELECT COUNT(id_kegiatan) as jumlahKegiatan from kegiatan where id_sanggar = $id_sanggar")->row_array();
@@ -82,8 +83,8 @@ class Dashboard extends CI_Controller {
 		$config = [
 			'protocol'  => 'smtp',
 			'smtp_host' => 'ssl://smtp.googlemail.com',
-			'smtp_user' => 'oa.corp101@gmail.com',
-			'smtp_pass' => 'Lenggokgoreng8.',
+			'smtp_user' => 'sanggarsenikotapekalongan@gmail.com',
+			'smtp_pass' => 'Parbudpora20',
 			'smtp_port' =>  465,
 			'mailtype'  => 'html',
 			'charset'   => 'utf-8',
@@ -93,14 +94,15 @@ class Dashboard extends CI_Controller {
 		$this->load->library('email', $config);
 		$this->email->initialize($config);
 
-		$this->email->from('oa.corp101@gmail.com', 'Sanggar Seni Kota Pekalongan');
+		$this->email->from('sanggarsenikotapekalongan@gmail.com', 'Sanggar Seni Kota Pekalongan');
 		$this->email->to($query['email_ketua']);
 
 		// verifikasi token
 		$this->email->subject('Pengajuan sanggar Seni Kota Pekalongan');
 
 		if($konf == 'tolak'){
-			$this->email->message('pengajuan sanggar anda <p style="font-size:17px; font-weight:bold">Ditolak</p> berkas yang di kirimkan tidak valid');
+			$keterangan = $this->input->post("keterangan");
+			$this->email->message('pengajuan sanggar anda <p style="font-size:17px; font-weight:bold">Ditolak</p> dikarenakan : '.$keterangan);
 		}else{
 			$this->email->message('pengajuan anda telah disetujui gunakan <p style="font-size:17px; font-weight:bold"> '.$query['id_otomatis'].' </p> sebagai password login, segera ganti password anda untuk menjaga keamanan,  Klik tombol aktivasi dibawah ini untuk verifikasi akun sanggar anda : <br />
 				<div style="border-radius: 50px;font-size: 14px;color: #fff;text-transform: capitalize;background-size: 200% auto;border: 1px solid transparent;box-shadow: 0px 12px 20px 0px rgba(255, 126, 95, 0.15);">
@@ -275,56 +277,111 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/template/footer');
 	}
 
-		public function laporan_json(){
+	public function laporan_json(){
 
- 		$jenis = $this->input->post('jenis');
- 		$output = '';
- 		$no = 0;
-
- 		if($jenis == 'semua'){
- 			$data = $this->db->query("SELECT * FROM sanggar s join kategori k on s.id_kategori = k.id_kategori join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan")->result();
- 		}else{
- 			$data = $this->db->query("SELECT * FROM sanggar s join kategori k on s.id_kategori = k.id_kategori join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan where k.id_kategori = $jenis")->result();
- 		}
- 		foreach ($data as $key => $dt) {
+		$jenis = $this->input->post('jenis');
+		$output = '';
+		$no = 0;
+		if($jenis == 'semua'){
+			$data = $this->db->query("SELECT * FROM sanggar s join kategori k on s.id_kategori = k.id_kategori join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan")->result();
+		}else{
+			$data = $this->db->query("SELECT * FROM sanggar s join kategori k on s.id_kategori = k.id_kategori join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan where k.id_kategori = $jenis")->result();
+		}
+		foreach ($data as $key => $dt) {
  			# code...
 
- 			$no++;
+			$no++;
 
- 			$output .=' <tr>
- 			<td>'.$no.'</td>
- 			 <td>'.$dt->id_otomatis.'</td>
- 			 <td>'.$dt->nama_kategori.'</td>
-              <td>'.$dt->nama_sanggar.'</td>
-              <td>'.$dt->nama_ketua.'</td>
-              <td>'.$dt->email_ketua.'</td>
-              <td>'.$dt->nama_kelurahan.'</td>
-              <td>'.$dt->rt.'</td>
-              <td>'.$dt->rw.'</td>
-              <td>'.$dt->nama_kecamatan.'</td>
-            </tr>';
- 		}
- 		
- 		echo json_encode($output);
- 		
- 	}
+			$output .=' <tr>
+			<td>'.$no.'</td>
+			<td>'.$dt->id_otomatis.'</td>
+			<td>'.$dt->nama_kategori.'</td>
+			<td>'.$dt->nama_sanggar.'</td>
+			<td>'.$dt->nama_ketua.'</td>
+			<td>'.$dt->email_ketua.'</td>
+			<td>'.$dt->nama_kelurahan.'</td>
+			<td>'.$dt->nama_kecamatan.'</td>
+			</tr>';
+		}
 
- 	public function cetak_laporan(){
- 		$data['side'] = 'laporan';
+		echo json_encode($output);
 
- 		$jenis = $this->input->post('kategori');
- 		$output = '';
- 		$no = 0;
+	}
 
- 		if($jenis == 'semua'){
- 			$data2 = $this->db->query("SELECT * FROM sanggar s join kategori k on s.id_kategori = k.id_kategori join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan where s.status = 2")->result();
- 			
- 		}else{
- 			$data2 = $this->db->query("SELECT * FROM sanggar s join kategori k on s.id_kategori = k.id_kategori join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan where k.id_kategori = $jenis and s.status = 2")->result();
- 		}
- 		$data['km'] = $data2;
+	public function cetak_laporan(){
+		$data['side'] = 'laporan';
+
+		$jenis = $this->input->post('kategori');
+		$output = '';
+		$no = 0;
+
+		if($jenis == 'semua'){
+			$data2 = $this->db->query("SELECT * FROM sanggar s join kategori k on s.id_kategori = k.id_kategori join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan where s.status = 2")->result();
+
+		}else{
+			$data2 = $this->db->query("SELECT * FROM sanggar s join kategori k on s.id_kategori = k.id_kategori join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan where k.id_kategori = $jenis and s.status = 2")->result();
+		}
+		$data['km'] = $data2;
 		
 		$this->load->view('admin/cetak_laporan',$data);
- 	}
+	}
+
+	public function detailKegiatan($id_kegiatan){
+		
+		$this->form_validation->set_rules('nama_kegiatan', 'Nama kegiatan', 'required');
+		$this->form_validation->set_rules('deskripsi', 'deskripsi', 'required');
+
+		$data['kegiatan'] = $this->db->query("SELECT * FROM kegiatan where id_kegiatan = '$id_kegiatan'")->row_array();
+		$data['side'] = 'kegiatan';
+
+		$this->load->view('admin/template/header',$data);
+		$this->load->view('admin/kegiatanDetail',$data);
+		$this->load->view('admin/template/footer');
+	}
+
+	public function tolak($id_kegiatan){
+		$alasan = $this->input->post('alasan');
+		$query = $this->db->query("UPDATE kegiatan set status_posting = 2,alasan = '$alasan' where id_kegiatan = $id_kegiatan");
+
+		if($query){
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">berhasil ditolak postingan! </div>');
+			redirect('dashboard/detailKegiatan/'.$id_kegiatan);
+		}
+	}
+
+	public function izin($id_kegiatan){
+		$query = $this->db->query("UPDATE kegiatan set status_posting = 1 where id_kegiatan = $id_kegiatan");
+
+		if($query){
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">berhasil diizinkan postingan! </div>');
+			redirect('dashboard/kelolaSanggar/');
+		}
+	}
+
+	public function hapusKegiatan($id_kegiatan){
+
+		$queryKegiatan = $this->db->query("SELECT * FROM kegiatan where id_kegiatan = $id_kegiatan")->row_array();
+
+		$foto = $queryKegiatan['foto_kegiatan'];
+		unlink(FCPATH . 'upload/kegiatan/'.$foto);
+
+		$queryKoment = $this->db->query("SELECT * FROM komentar where id_kegiatan = $id_kegiatan")->result();
+
+		foreach ($queryKoment as $key => $value) {
+			# code...
+			$id_komentar = $value->id_komentar;
+			$queryBalas = $this->db->query("DELETE FROM balas_komentar where id_komentar = $id_komentar");
+		}
+		$queryDeleteKoment = $this->db->query("DELETE FROM komentar where id_kegiatan = $id_kegiatan");
+		$query = $this->db->query("DELETE FROM kegiatan WHERE id_kegiatan ='$id_kegiatan'");
+
+		if($query){
+			$this->session->set_flashdata('message', '<div class="alert alert-success text-center" role="alert">Data berhasil dihapus</div>');
+			header('location:'.base_url().'dashboard/kelolaSanggar');
+		}else{
+			$this->session->set_flashdata('message', '<div class="alert alert-dangger text-center" role="alert">Data gagal dihapus s</div>');
+			header('location:'.base_url().'dashboard/kelolaSanggar');
+		}
+	}
 
 }

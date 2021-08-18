@@ -22,20 +22,20 @@
 
                   <form action="<?php echo base_url('user/pengajuanDetail/') ?>" class="form-group" method="post" >
                     <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="mt-10">
                             <p>Nomor Pengajuan</p>
-                            <input type="text" id="nomor" name="id_otomatis" placeholder="" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama sanggar'"
+                            <input type="text" id="nomor" name="id_otomatis" placeholder="" onfocus="this.placeholder = ''" onblur="this.placeholder = 'nomor pengajuan sanggar'"
                             required class="single-input" value="">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                   <!--  <div class="col-md-6">
                         <div class="mt-10">
                             <p>NIK</p>
                             <input type="text" id="nik" name="nik" placeholder="" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nama Ketua Sanggar'"
                             required class="single-input" value="">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group mt-3">
                         <a id="cari" class="button button-contactForm btn_1">Cari Data Pengajuan</a>
                     </div>

@@ -15,7 +15,7 @@ class User extends CI_Controller {
 
 	public function index(){
 		$data['nav'] = 'home';
-		$data['kategori'] = $this->db->query("SELECT * FROM KATEGORI")->result();
+		$data['kategori'] = $this->db->query("SELECT * FROM ketegori")->result();
 		$data['kecamatan'] = $this->db->query("SELECT * FROM kecamatan")->result();
 		$this->load->view('user/template/header',$data);
 		$this->load->view('user/depan');
@@ -32,8 +32,8 @@ class User extends CI_Controller {
 
 	public function pengajuan(){
 		$data['nav'] = 'pengajuan';
-		$data['kategori']  = $this->db->query("SELECT * FROM KATEGORI")->result();
-		$data['kecamatan'] = $this->db->query("SELECT * FROM KECAMATAN")->result(); 
+		$data['kategori']  = $this->db->query("SELECT * FROM ketegori")->result();
+		$data['kecamatan'] = $this->db->query("SELECT * FROM kecamatan")->result(); 
 
 		$que = $this->db->query("SELECT id_sanggar from sanggar order by id_sanggar desc limit 1");
 
@@ -62,8 +62,8 @@ class User extends CI_Controller {
 			$id_otomatis = $this->input->post('password');
 			$nik = $this->input->post('nik');
 
-			$queryEmail = $this->db->query("SELECT * FROM SANGGAR WHERE email_ketua = '$email'")->num_rows();
-			$queryNik = $this->db->query("SELECT * FROM SANGGAR WHERE nik = '$nik'")->num_rows();
+			$queryEmail = $this->db->query("SELECT * FROM sanggar WHERE email_ketua = '$email'")->num_rows();
+			$queryNik = $this->db->query("SELECT * FROM sanggar WHERE nik = '$nik'")->num_rows();
 
 			if($queryEmail > 0){
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">email sudah terdaftar</div>');
@@ -73,7 +73,7 @@ class User extends CI_Controller {
 					$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">nik sudah terdaftar</div>');
 					header('location:'.base_url().'user/pengajuan');
 				}else{
-						$config['upload_path'] = 'upload/sanggar';
+					$config['upload_path'] = 'upload/sanggar';
             //restrict uploads to this mime types
 					$config['allowed_types'] = 'jpg|jpeg|png|mp3|pdf|docx';
 					$config['max_size'] = 999999999;
@@ -111,8 +111,8 @@ class User extends CI_Controller {
 						'email_ketua' => $this->input->post('email'),
 						'id_kategori' => $this->input->post('kategori'),
 						'id_kelurahan' => $this->input->post('kelurahan'),
-						'rt' => $this->input->post('rt'),
-						'rw' => $this->input->post('rw'),
+						'no_hp' => $this->input->post('hp'),
+						'alamat' => $this->input->post('alamat'),
 						'longitude' => $this->input->post('longitude'),
 						'latitude' => $this->input->post('latitude'),
 						'ktp' => $fileKtp,
@@ -146,7 +146,7 @@ class User extends CI_Controller {
 
 	public function sanggar($id_sanggar){
 		$data['nav'] = 'jelajah';
-		$data['kegiatan'] = $this->db->query("SELECT * FROM sanggar s join kegiatan k on k.id_sanggar = s.id_sanggar where $id_sanggar = '$id_sanggar'")->result();
+		$data['kegiatan'] = $this->db->query("SELECT * FROM sanggar s join kegiatan k on k.id_sanggar = s.id_sanggar where s.id_sanggar = '$id_sanggar' and k.status_posting = 1")->result();
 		$data['sanggar'] = $this->db->query("SELECT * from sanggar s join kategori k on k.id_kategori = s.id_kategori join kelurahan kl on s.id_kelurahan = kl.id_kelurahan join kecamatan kc on kl.id_kecamatan = kc.id_kecamatan  where s.id_sanggar = '$id_sanggar'")->row_array();
 		$this->load->view('user/template/header',$data);
 		$this->load->view('user/jelajah');
@@ -154,8 +154,8 @@ class User extends CI_Controller {
 	}
 	public function kegiatan($id_sanggar,$id_kegiatan){
 		$data['nav'] = 'jelajah';
-		$data['kegiatan'] = $this->db->query("SELECT * FROM sanggar s join kegiatan k on k.id_sanggar = s.id_sanggar where $id_kegiatan = '$id_kegiatan'")->row_array();
-		$data['semuaKegiatan'] = $this->db->query("SELECT * FROM sanggar s join kegiatan k on k.id_sanggar = s.id_sanggar where $id_sanggar = '$id_sanggar'")->result();
+		$data['kegiatan'] = $this->db->query("SELECT * FROM sanggar s join kegiatan k on k.id_sanggar = s.id_sanggar where $id_kegiatan = '$id_kegiatan' and k.status_posting = 1")->row_array();
+		$data['semuaKegiatan'] = $this->db->query("SELECT * FROM sanggar s join kegiatan k on k.id_sanggar = s.id_sanggar where $id_sanggar = '$id_sanggar' and k.status_posting = 1")->result();
 		$data['sanggar'] = $this->db->query("SELECT * from sanggar where id_sanggar = '$id_sanggar'")->row_array();
 		$data['koment'] = $this->db->query("SELECT * from komentar where id_kegiatan = '$id_kegiatan'")->result();
 		$data['jumlah'] = $this->db->query("SELECT count(id_komentar) as jumlah_koment from komentar where id_kegiatan = '$id_kegiatan'")->row_array();
@@ -209,19 +209,34 @@ class User extends CI_Controller {
 		$jenis = $jenis;
 
 		if ($jenis == 'kk') {
-			$data = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori where kc.id_kecamatan = $nama and s.status = 2")->result();
+			$query = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori where kc.id_kecamatan = $nama and s.status = 2");
+			if($query->num_rows() > 0){
+				$data = $query->result();
+			}else{
+				$data = '';
+			}
 		} else if($jenis == 's' and $nama == 'k'){
-			$data = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori where s.status = 2")->result();
+			$query = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori where s.status = 2");
+			if($query->num_rows() > 0){
+				$data = $query->result();
+			}else{
+				$data = '';
+			}
 		}else{
-			$data = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori where kc.id_kecamatan = $nama and kt.id_kategori = $jenis and s.status = 2")->result();
+			$query = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori where kc.id_kecamatan = $nama and kt.id_kategori = $jenis and s.status = 2");
+			if($query->num_rows() > 0){
+				$data = $query->result();
+			}else{
+				$data = '';
+			}
 		}
 
 		echo json_encode($data);
 	}
 
-	public function pengajuanDetail($id_otomatis,$nik){
+	public function pengajuanDetail($id_otomatis){
 		$data['nav'] ='pengajuan';
-		$querySanggar = $this->db->query("SELECT * FROM sanggar s join kategori k on k.id_kategori = s.id_kategori join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan where s.id_otomatis = '$id_otomatis' and nik = '$nik'");
+		$querySanggar = $this->db->query("SELECT * FROM sanggar s join kategori k on k.id_kategori = s.id_kategori join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan where s.id_otomatis = '$id_otomatis'");
 		$data['pengajuan'] = $querySanggar->row_array();
 
 		if($querySanggar->num_rows() > 0){
@@ -237,8 +252,8 @@ class User extends CI_Controller {
 	public function info_lanjut(){
 		$data['nav'] ='info';
 		$this->load->view('user/template/header',$data);
-			$this->load->view('user/info_lanjut');
-			$this->load->view('user/template/footer');
+		$this->load->view('user/info_lanjut');
+		$this->load->view('user/template/footer');
 	}
 
 	public function cetakBukti($id_otomatis){

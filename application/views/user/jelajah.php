@@ -101,30 +101,17 @@
                     </li>
                     <li>
                         <a href="#" class="d-flex">
+                            <p class="font-weight-bold">No Handphone :</p>
+                            <p>&nbsp <?php echo $sanggar['no_hp'] ?></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="d-flex">
                             <p class="font-weight-bold">Alamat </p>
-                            <p>&nbsp &nbsp RT <?php echo $sanggar['rt'] ?> RW <?php echo $sanggar['rw'] ?>, Kelurahan <?php echo $sanggar['nama_kelurahan'] ?>, Kecamatan <?php echo $sanggar['nama_kecamatan'] ?>, Kota Pekalongan</p>
+                            <p>&nbsp &nbsp <?php echo $sanggar['alamat'] ?>, Kelurahan <?php echo $sanggar['nama_kelurahan'] ?>, Kecamatan <?php echo $sanggar['nama_kecamatan'] ?>, Kota Pekalongan</p>
                         </a>
                     </li>
                 </ul>
-            </aside>
-
-
-                <aside class="single_sidebar_widget popular_post_widget">
-                    <h3 class="widget_title">Jelajah Sanggar</h3>
-                    <?php $querySanggar = $this->db->query("SELECT * FROM sanggar where status = 2")->result();
-
-                    foreach ($querySanggar as $key => $value) {
-                     # code...
-                       ?>
-                       <div class="media post_item">
-                        <img style="height: 70px; width: 90px;" src="<?php echo base_url('upload/sanggar/') ?><?php echo $value->foto ?>" alt="post">
-                        <div class="media-body">
-                            <a href="single-blog.html">
-                                <h3><?php echo $value->nama_sanggar; ?></h3>
-                            </a>
-                        </div>
-                    </div>
-                <?php } ?>
             </aside>
             <aside class="single_sidebar_widget instagram_feeds">
                 <h4 class="widget_title">Galeri Sanggar</h4>
@@ -141,6 +128,23 @@
                    
                     <?php } ?>
                 </ul>
+            </aside>
+            <aside class="single_sidebar_widget popular_post_widget">
+                    <h3 class="widget_title">Jelajah Sanggar Lain</h3>
+                    <?php $querySanggar = $this->db->query("SELECT * FROM sanggar where status = 2")->result();
+
+                    foreach ($querySanggar as $key => $value) {
+                     # code...
+                       ?>
+                       <div class="media post_item">
+                        <img style="height: 70px; width: 90px;" src="<?php echo base_url('upload/sanggar/') ?><?php echo $value->foto ?>" alt="post">
+                        <div class="media-body">
+                            <a href="single-blog.html">
+                                <h3><?php echo $value->nama_sanggar; ?></h3>
+                            </a>
+                        </div>
+                    </div>
+                <?php } ?>
             </aside>
         </div>
     </div>

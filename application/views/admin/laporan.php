@@ -42,7 +42,7 @@
  <div class="col-md-12">
    <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Data Pasien</h3>
+      <h3 class="card-title">Data Sanggar</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -56,13 +56,11 @@
             <th>Nama Ketua</th>
             <th>Email Ketua</th>
             <th>Kelurahan</th>
-            <th>RT</th>
-            <th>RW</th>
             <th>Kecamatan</th>
           </tr>
         </thead>
         <tbody id="tbl">
-
+      
         </tbody>
       </table>
     </div>

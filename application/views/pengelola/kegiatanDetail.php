@@ -37,7 +37,10 @@ $queryKoment = $this->db->query("SELECT * FROM komentar where id_kegiatan = '$id
 												<div class="user-block">
 													<img class="img-circle" src="<?php echo base_url('assets/') ?>dist/img/user1-128x128.jpg" alt="User Image">
 													<span class="username"><a href="#"><?php echo $kegiatan['nama_kegiatan'] ?></a></span>
-													<span class="description">diposting pada tanggal - <?php echo $kegiatan['tanggal_posting'] ?></span>
+													<span class="description">diposting pada tanggal - <?php echo $kegiatan['tanggal_posting'] ?> <?php if($kegiatan['status_posting'] == 2){?>
+														<span class="float-right badge badge-danger ml-4 mt-2">ditolak</span>
+													<?php } ?></span>
+													
 												</div>
 												<!-- /.user-block -->
 												<div class="card-tools">
@@ -109,6 +112,12 @@ $queryKoment = $this->db->query("SELECT * FROM komentar where id_kegiatan = '$id
 												</div>
 												<!-- /.card-footer -->
 												<div class="card-footer">
+													<?php if($kegiatan['status_posting'] == 2){ ?>
+														<h4 style="color: red">Keterangan Penolakan</h4>
+													<h6>
+														<?php echo $kegiatan['alasan']; ?>
+													</h6>
+												<?php } ?>
 												</div>
 												<!-- /.card-footer -->
 											</div>
@@ -118,7 +127,7 @@ $queryKoment = $this->db->query("SELECT * FROM komentar where id_kegiatan = '$id
 								</div>
 
 								<div class="tab-pane" id="settings">
-									<form class="form-horizontal" method="POST" action="<?php echo base_url('pengelola/kegiatan') ?>" enctype="multipart/form-data">
+									<form class="form-horizontal" method="POST" action="<?php echo base_url('pengelola/detailKegiatan/'.$kegiatan['id_kegiatan']) ?>" enctype="multipart/form-data">
 										<div class="form-group row">
 											<label for="inputName" class="col-sm-2 col-form-label">Nama Kegiatan</label>
 											<div class="col-sm-10">

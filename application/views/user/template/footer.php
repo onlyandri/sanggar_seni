@@ -172,7 +172,10 @@
 
     $.getJSON('<?= base_url() ?>user/viewmarker/' + nama_kecamatan + '/' + jenis, function(data) {
       clearmap();
-      $.each(data, function(k, v) {
+      if(data == ''){
+        alert('tidak ditemukan');
+      }else{
+        $.each(data, function(k, v) {
         var pos = {
           lat: parseFloat(v.latitude),
           lng: parseFloat(v.longitude)
@@ -192,6 +195,8 @@
         '</div>';
         addMarker(v.nama_ketua, pos, v.icon, contentString);
       });
+      }
+      
     });
   })
 
@@ -202,6 +207,9 @@
 
     $.getJSON('<?= base_url() ?>user/viewmarker/' + nama_kecamatan + '/' + jenis, function(data) {
       clearmap();
+       if(data == ''){
+        alert('tidak ditemukan');
+      }
       $.each(data, function(k, v) {
         var pos = {
           lat: parseFloat(v.latitude),
@@ -298,15 +306,13 @@
     $(document).on('click', '#cari', function () {
       var nomor = $("#nomor").val();
       var nik = $("#nik").val();
-      if(nomor == '' || nik == ''){
+      if(nomor == ''){
        alert('Isi nomor penyewa dan nik terlebih dahulu')
      }else{
-      var url = "<?php echo base_url('user/pengajuanDetail/:nomor/:nik') ?>"
-      alert(nomor)
+      var url = "<?php echo base_url('user/pengajuanDetail/:nomor') ?>"
       url = url.replace(':nomor', nomor)
       url = url.replace(':nik', nik)
       $('#cari').attr('href', url)
-      alert(url)
     }
 
   })

@@ -43,7 +43,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-lg navbar-light">
-                            <a class="navbar-brand" href= index.html" style="font-weight: bold; color: #556172"> <img style="width: 30px; height: 40px" src="<?php echo base_url('upload/') ?>logo.png" alt="logo">Kota Pekalongan </a>
+                            <a class="navbar-brand" href= index.html" style="font-weight: bold; color: #556172"> <img style="width: 30px; height: 40px; margin-right: 7px" src="<?php echo base_url('upload/') ?>logo.png" alt="logo">Kota Pekalongan </a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">

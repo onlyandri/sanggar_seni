@@ -46,7 +46,7 @@
                   </ul>
                 </div>
                 <div class="col-5 text-center">
-                  <img style="height: 70px; width:  70px; border-radius: 50%" src="<?php echo base_url('upload/sanggar/'.$value->foto_ketua) ?>" alt="" >
+                  <img style="height: 70px; width:  70px; border-radius: 50%" src="<?php echo base_url('upload/sanggar/'.$value->foto) ?>" alt="" >
                 </div>
               </div>
             </div>

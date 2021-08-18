@@ -42,7 +42,7 @@
 
 										<strong>Alamat</strong>
 
-										<p class="text-muted"><?php echo $sanggar['nama_kelurahan'] ?>, rt <?php echo $sanggar['rt'] ?>/ rw <?php echo $sanggar['rw'] ?>, <?= $sanggar['nama_kecamatan'] ?>, Kota Pekalongan , Jawa Tengah</p>
+										<p class="text-muted"><?php echo $sanggar['alamat'] ?>,<?php echo $sanggar['nama_kelurahan'] ?>, <?= $sanggar['nama_kecamatan'] ?>, Kota Pekalongan , Jawa Tengah</p>
 
 										<hr>
 
@@ -62,6 +62,10 @@
 										<strong> Email</strong>
 
 										<p class="text-muted"><?php echo $sanggar['email_ketua'] ?></p>
+										<hr>
+										<strong> No Handphone</strong>
+
+										<p class="text-muted"><?php echo $sanggar['no_hp'] ?></p>
 										<hr>
 										<strong>Foto Ketua</strong></br>
 
@@ -101,7 +105,7 @@
 
 											?>
 											<a href="<?php echo base_url('dashboard/sendEmail/'.$sanggar['id_sanggar'].'/terima') ?>" type="button" class="btn btn-primary">Terima Pengajuan</a>
-											<a href="<?php echo base_url('dashboard/sendEmail/'.$sanggar['id_sanggar'].'/tolak') ?>" type="button" class="btn btn-warning">TolaK Pengajuan</a>
+											<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalTambah">TolaK Pengajuan</button>
 											<a href="<?php echo base_url('dashboard/hapusPengajuan/'.$sanggar['id_sanggar']) ?>" type="button" class="btn btn-danger">Hapus Pengajuan</a>
 										<?php }else{ ?>
 											<a href="<?php echo base_url('dashboard/hapusPengajuan/'.$sanggar['id_sanggar']) ?>" type="button" class="btn btn-danger">Hapus Sanggar</a>
@@ -120,3 +124,26 @@
 		</div>
 	</div>
 </section>
+
+<div class="modal fade" id="modalTambah">
+	<div class="modal-dialog">
+		<form class="modal-content" method="POST" action="<?php echo base_url('dashboard/sendEmail/'.$sanggar['id_sanggar'].'/tolak') ?>">
+			<div class="modal-header">
+				<h4 class="modal-title">Tambahkan Pesan Penolakan</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label></label>
+					<textarea id="deskripsi" class="form-control" placeholder="Masukan Keterangan" name="keterangan" required 
+					style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+				</div>
+			</div>
+			<div class="modal-footer text-right">
+				<button type="submit" class="btn btn-info">Tambahkan</button>
+			</div>
+		</form>
+	</div>
+</div>
