@@ -106,9 +106,19 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="d-flex">
+                        <a href="https://maps.google.com/?q=<?= $sanggar['latitude'] ?>,<?= $sanggar['longitude'] ?>" class="d-flex">
+<!--                    Navigasi ke google map-->
+<!--                  </a>-->
                             <p class="font-weight-bold">Alamat </p>
                             <p>&nbsp &nbsp <?php echo $sanggar['alamat'] ?>, Kelurahan <?php echo $sanggar['nama_kelurahan'] ?>, Kecamatan <?php echo $sanggar['nama_kecamatan'] ?>, Kota Pekalongan</p>
+                        </a>
+                    </li>
+                      <li>
+                        <a href="" class="d-flex">
+<!--                    Navigasi ke google map-->
+<!--                  </a>-->
+                            <p class="font-weight-bold">Prestasi &nbsp;</p>
+                            <p><?php echo $sanggar['prestasi'] ?></p>
                         </a>
                     </li>
                 </ul>

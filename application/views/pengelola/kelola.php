@@ -62,6 +62,10 @@
 
 										<p class="text-muted"><?php echo $sanggar['no_hp'] ?></p>
 										<hr>
+										<strong><i class="far fa-file-alt mr-1"></i> Prestasi</strong>
+
+										<p class="text-muted"><?php echo $sanggar['prestasi'] ?></p>
+										<hr>
 									</div>
 									<!-- /.card-body -->
 								</div>
@@ -116,6 +120,12 @@
 										<label for="inputExperience" class="col-sm-2 col-form-label">Deskripsi</label>
 										<div class="col-sm-10">
 											<textarea class="form-control" id="inputExperience" placeholder="Experience" name="pesan"><?php echo $sanggar['pesan'] ?></textarea>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="inputExperience" class="col-sm-2 col-form-label">Ulasan Prestasi</label>
+										<div class="col-sm-10">
+											<textarea class="form-control" id="inputExperience" placeholder="Experience" name="prestasi"><?php echo $sanggar['prestasi'] ?></textarea>
 										</div>
 									</div>
 									<div class="form-group row">

@@ -15,7 +15,7 @@ class User extends CI_Controller {
 
 	public function index(){
 		$data['nav'] = 'home';
-		$data['kategori'] = $this->db->query("SELECT * FROM ketegori")->result();
+		$data['kategori'] = $this->db->query("SELECT * FROM kategori")->result();
 		$data['kecamatan'] = $this->db->query("SELECT * FROM kecamatan")->result();
 		$this->load->view('user/template/header',$data);
 		$this->load->view('user/depan');
@@ -32,7 +32,7 @@ class User extends CI_Controller {
 
 	public function pengajuan(){
 		$data['nav'] = 'pengajuan';
-		$data['kategori']  = $this->db->query("SELECT * FROM ketegori")->result();
+		$data['kategori']  = $this->db->query("SELECT * FROM kategori")->result();
 		$data['kecamatan'] = $this->db->query("SELECT * FROM kecamatan")->result(); 
 
 		$que = $this->db->query("SELECT id_sanggar from sanggar order by id_sanggar desc limit 1");

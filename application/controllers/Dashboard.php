@@ -30,7 +30,7 @@ class Dashboard extends CI_Controller {
 
 	public function kelolaPengajuan(){
 		$data['side'] = 'pengajuan';
-		$data['pengajuan'] = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on k.id_kecamatan = kc.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori where s.status != 2")->result();
+		$data['pengajuan'] = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on k.id_kecamatan = kc.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori where s.status != 2 order by s.tanggal_gabung desc")->result();
 		$this->load->view('admin/template/header',$data);
 		$this->load->view('admin/pengajuan');
 		$this->load->view('admin/template/footer');
@@ -46,7 +46,7 @@ class Dashboard extends CI_Controller {
 
 	public function kelolaSanggar(){
 		$data['side'] = 'sanggar';
-		$data['pengajuan'] = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on k.id_kecamatan = kc.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori where s.status = 2")->result();
+		$data['pengajuan'] = $this->db->query("SELECT * FROM sanggar s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on k.id_kecamatan = kc.id_kecamatan join kategori kt on kt.id_kategori = s.id_kategori join kegiatan kg on kg.id_sanggar = s.id_sanggar where s.status = 2 order by kg.tanggal_posting desc")->result();
 		$this->load->view('admin/template/header',$data);
 		$this->load->view('admin/sanggar');
 		$this->load->view('admin/template/footer');

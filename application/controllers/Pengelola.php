@@ -44,8 +44,9 @@ class Pengelola extends CI_Controller {
 		$alamat = $this->input->post('alamat');
 		$no_hp = $this->input->post('noHp');
 		$pesan = $this->input->post('pesan');
+		$prestasi = $this->input->post('prestasi');
 
-		$query = $this->db->query("UPDATE sanggar set nama_sanggar = '$nama_sanggar',id_kategori = '$id_kategori',nama_ketua = '$nama_ketua',pesan = '$pesan',alamat='$alamat',no_hp='$no_hp' where id_sanggar = '$id_sanggar'");
+		$query = $this->db->query("UPDATE sanggar set nama_sanggar = '$nama_sanggar',id_kategori = '$id_kategori',nama_ketua = '$nama_ketua',pesan = '$pesan',alamat='$alamat',no_hp='$no_hp',prestasi='$prestasi' where id_sanggar = '$id_sanggar'");
 
 		if($query){
 			$this->session->set_flashdata('message', '<div class="alert alert-success text-center" role="alert">Data berhasil diubah</div>');
